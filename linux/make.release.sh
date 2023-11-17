@@ -3,6 +3,12 @@
 # Builds a release of private_comments.
 # Run from the project root.
 
+INTERACTIVE=""
+if sh -c ": >/dev/tty" >/dev/null 2>/dev/null; then
+	# Only add these if running on actual terminal.
+	INTERACTIVE="--interactive --tty"
+fi
+
 set -x
 set -euo pipefail
 
@@ -14,7 +20,7 @@ BUILD_VERSION="${BUILD_VERSION:-}"
 
 readonly _script_dir="$(pwd)"
 
-docker run --interactive --tty \
+docker run ${INTERACTIVE} \
 		-u "$(id -u):$(id -g)" \
 		-v "${_script_dir}:/src:rw" \
 		private_comments_buildenv \
