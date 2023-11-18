@@ -12,10 +12,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - if: matrix.runs-on == 'macos-latest'
-        run: "cd ./src && ./build.sh"
+        run: "cd ./src && ./build.sh ${{ env.RELEASE_VERSION }}"
       - if: matrix.runs-on == 'ubuntu-latest'
-        run: "./linux/make.release.sh"
+        run: "env BUILD_VERSION=${{ env.RELEASE_VERSION }}./linux/make.release.sh"
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "bin/*.tgz"
