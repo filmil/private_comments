@@ -15,9 +15,11 @@ jobs:
   test:
     strategy:
       matrix:
-        runs-on: [ macos-latest ]
+        runs-on: [ macos-latest, ubuntu-latest ]
     runs-on: ${{ matrix.runs-on }}
     steps:
       - uses: actions/checkout@v3
       - if: matrix.runs-on == 'macos-latest'
         run: "cd ./src && ./build.sh"
+      - if: matrix.runs-on == 'ubuntu-latest'
+        run: "./linux/make.release.sh"

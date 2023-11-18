@@ -12,7 +12,9 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
-      - name: "Build"
+      - if: matrix.runs-on == 'macos-latest'
+        run: "cd ./src && ./build.sh"
+      - if: matrix.runs-on == 'ubuntu-latest'
         run: "./linux/make.release.sh"
       - uses: ncipollo/release-action@v1
         with:
