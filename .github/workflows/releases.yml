@@ -20,4 +20,5 @@ jobs:
         run: "env BUILD_VERSION=${{ env.RELEASE_VERSION }}./linux/make.release.sh"
       - uses: ncipollo/release-action@v1
         with:
+          allowUpdates: true
           artifacts: "bin/*.tgz"
